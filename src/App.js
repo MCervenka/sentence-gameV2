@@ -26,8 +26,7 @@ class App extends Component {
             page: this.state.page - 1
         })
     }
-    onSubmit = formValues => {
-        console.log(formValues);
+    onSubmit = (formValues) => {
         this.setState({
             sentence: formValues.who + " " + formValues.what + " " + formValues.where + " " + formValues.when
         })

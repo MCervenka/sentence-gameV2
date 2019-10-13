@@ -3,7 +3,7 @@ import {Field, reduxForm} from 'redux-form';
 import validate from '../validate';
 import RenderField from '../RenderField';
 
-const Where = props => {
+const Where = (props) => {
     const {handleSubmit, previousPage} = props
     return (
         <form onSubmit={handleSubmit}>
@@ -22,4 +22,4 @@ const Where = props => {
         </form>
     )
 }
-export default reduxForm({form: 'sentence-game', destroyOnUnmount: true, forceUnregisterOnUnmount: true, validate})(Where)
+export default reduxForm({form: 'sentence-game', destroyOnUnmount: false, forceUnregisterOnUnmount: true, validate})(Where)
