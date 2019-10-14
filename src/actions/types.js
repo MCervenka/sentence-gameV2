@@ -1,0 +1,2 @@
+export const POST_VALUE = 'POST_VALUE';
+export const DESTROY_VALUES = 'DESTROY_VALUES';

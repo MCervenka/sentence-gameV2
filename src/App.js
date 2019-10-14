@@ -1,93 +1,81 @@
-import React, {Component} from 'react'
-import Who from './Questions/Who';
-import What from './Questions/What';
-import When from './Questions/When';
-import Where from './Questions/Where';
-import Sentence from './Sentence';
+import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux';
+import * as actions from './actions';
 
-class App extends Component {
-    constructor(props) {
-        super(props)
-        this.nextPage = this.nextPage.bind(this)
-        this.previousPage = this.previousPage.bind(this)
-        this.state = {
-            page: 1,
-            sentence: ""
+const App = (props) => {
+    const {destroyValues, postValue, form} = props
+    const [term, setTerm] = useState("");
+    const [page, setPage] = useState(1);
+    const nextPage = (event) => {
+        event.preventDefault();
+        postValue({value: term, page: page});
+        setPage(page + 1);
+    }
+    useEffect(() => {
+        if (form[page] === undefined) {
+            setTerm("")
+        } else {
+            setTerm(form[page])
         }
+    }, [form, page]);
+    const previousPage = (event) => {
+        event.preventDefault();
+        setPage(page - 1);
     }
-    nextPage() {
-        this.setState({
-            page: this.state.page + 1
-        })
+    const startNew = () => {
+        setPage(1);
+        destroyValues();
     }
+    const currentLabel = ["Who", "What", "When", "Where"];
 
-    previousPage() {
-        this.setState({
-            page: this.state.page - 1
-        })
-    }
-    onSubmit = (formValues) => {
-        this.setState({
-            sentence: formValues.who + " " + formValues.what + " " + formValues.where + " " + formValues.when
-        })
-        this.nextPage();
-    }
-    startNew = () => {
-        this.setState({page: 1, sentence: ""})
-    }
-    render() {
-        const {page} = this.state
-        return (
-            <div id="flexContainer" >
+    return (
+        <div id="flexContainer">
+            {
+            page !== 5 && <form onSubmit={nextPage}>
+                <div className='"ui input focus"'>
+                    <label>{
+                        currentLabel[page - 1]
+                    }</label>
+                    <div>
+                        <input type="text"
+                            placeholder={
+                                currentLabel[page - 1]+"?"
+                            }
+                            value={term}
+                            onChange={
+                                event => setTerm(event.target.value)
+                            }
+                            required/>
+                    </div>
+                </div>
                 <div> {
-                    page === 1 && <Who onSubmit={
-                        this.nextPage
-                    }/>
+                    page > 1 && <button type="button" className="ui button secondary"
+                        onClick={previousPage}>
+                        Previous
+                    </button>
                 }
-                    {
-                    page === 2 && (
-                        <What previousPage={
-                                this.previousPage
-                            }
-                            onSubmit={
-                                this.nextPage
-                            }/>
-                    )
-                }
-                    {
-                    page === 3 && (
-                        <When previousPage={
-                                this.previousPage
-                            }
-                            onSubmit={
-                                this.nextPage
-                            }/>
-                    )
-                }
-                    {
-                    page === 4 && (
-                        <Where previousPage={
-                                this.previousPage
-                            }
-                            onSubmit={
-                                this.onSubmit
-                            }/>
-                    )
-                }
-                    {
-                    page === 5 && (
-                        <Sentence sentence={
-                                this.state.sentence
-                            }
-                            startNew={
-                                this.startNew
-                            }/>
-                    )
-                }</div>
+                    <button className="ui button primary" type="submit">
+                        Next
+                    </button>
+                 </div>
+            </form>
+        }
+            {
+            page === 5 && <div>
+                <p> {
+                    form[1] + " " + form[2] + " " + form[4] + " " + form[3]
+                } </p>
+                <button className="ui button green" type="button"
+                    onClick={startNew}>
+                    Start new game
+                </button>
             </div>
-        )
-    }
+        } </div>
+    )
 }
 
+const mapStateToProps = ({form}) => {
+    return {form};
+};
 
-export default App
+export default connect(mapStateToProps, actions)(App);
