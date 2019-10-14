@@ -1,4 +1,5 @@
 import React from "react";
+import {reduxForm} from 'redux-form';
 
 const Sentence = (props) => {
     const {sentence, startNew} = props
@@ -13,4 +14,4 @@ const Sentence = (props) => {
     );
 }
 
-export default Sentence;
+export default reduxForm({form: 'sentence-game', destroyOnUnmount: true, forceUnregisterOnUnmount: true})(Sentence)
