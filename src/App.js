@@ -8,7 +8,7 @@ const App = (props) => {
     const [page, setPage] = useState(1);
     const nextPage = (event) => {
         event.preventDefault();
-        postValue({value: term, page: page});
+        if (form[page] !== term) {postValue({value: term, page: page})};
         setPage(page + 1);
     }
     useEffect(() => {
@@ -19,7 +19,7 @@ const App = (props) => {
         }
     }, [form, page]);
     const previousPage = () => {
-        postValue({value: term, page: page});
+        if (form[page] !== term) {postValue({value: term, page: page})};
         setPage(page - 1);
     }
     const startNew = () => {
