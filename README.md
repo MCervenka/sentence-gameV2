@@ -1,1 +1,1 @@
-In build_a_sentence.md file is a coding assignment. I decided to use redux form to solve this assignment. 
+In build_a_sentence.md file is a coding assignment. This is more efficient solution to this assignment.

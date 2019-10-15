@@ -18,8 +18,8 @@ const App = (props) => {
             setTerm(form[page])
         }
     }, [form, page]);
-    const previousPage = (event) => {
-        event.preventDefault();
+    const previousPage = () => {
+        postValue({value: term, page: page});
         setPage(page - 1);
     }
     const startNew = () => {
